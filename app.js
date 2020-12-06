@@ -7,16 +7,15 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
+
+const errorController = require("./controllers/error");
+const User = require("./models/user");
+
+const app = express();
 const store = new MongoDBStore({
   uri: process.env.NODE_MONGO_DB,
   collection: "sessions",
 });
-
-const errorController = require("./controllers/error");
-
-const User = require("./models/user");
-
-const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -29,26 +28,25 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
   session({
-    secret: "keyboard cat",
+    secret: "secret session key",
     resave: false,
     saveUninitialized: false,
-    cookie: {
-      secure: true,
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-    },
     store: store,
   })
 );
 
 app.use((req, res, next) => {
-  if (req.session.isLoggedIn) {
-    User.findById("5f86e676af324d6ba29901cd")
-      .then((user) => {
-        req.user = user;
-        next();
-      })
-      .catch((err) => console.log(err));
+  if (!req.session.user) {
+    return next();
   }
+  User.findById(req.session.user._id)
+    .then((user) => {
+      req.user = user;
+      next();
+    })
+    .catch((err) => {
+      console.log("🚀 ~ file: app.js ~ line 48 ~ app.use ~ err", err);
+    });
 });
 
 app.use("/admin", adminRoutes);

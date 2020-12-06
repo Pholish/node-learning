@@ -4,7 +4,7 @@ const Order = require("../models/order");
 exports.getProducts = (req, res, next) => {
   Product.find()
     .then((products) => {
-      console.log(products);
+      console.log("🚀 ~ file: shop.js ~ line 7 ~ .then ~ products", products);
       res.render("shop/product-list", {
         prods: products,
         pageTitle: "All Products",
@@ -13,7 +13,7 @@ exports.getProducts = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      console.log("🚀 ~ file: shop.js ~ line 16 ~ err", err);
     });
 };
 
@@ -28,7 +28,9 @@ exports.getProduct = (req, res, next) => {
         isAuthenticated: req.session.isLoggedIn,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log("🚀 ~ file: shop.js ~ line 32 ~ err", err);
+    });
 };
 
 exports.getIndex = (req, res, next) => {
@@ -42,7 +44,7 @@ exports.getIndex = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      console.log("🚀 ~ file: shop.js ~ line 45 ~ err", err);
     });
 };
 
@@ -59,7 +61,9 @@ exports.getCart = (req, res, next) => {
         isAuthenticated: req.session.isLoggedIn,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log("🚀 ~ file: shop.js ~ line 63 ~ err", err);
+    });
 };
 
 exports.postCart = (req, res, next) => {
@@ -69,7 +73,7 @@ exports.postCart = (req, res, next) => {
       return req.user.addToCart(product);
     })
     .then((result) => {
-      console.log(result);
+      console.log("🚀 ~ file: shop.js ~ line 72 ~ .then ~ result", result);
       res.redirect("/cart");
     });
 };
@@ -81,7 +85,12 @@ exports.postCartDeleteProduct = (req, res, next) => {
     .then((result) => {
       res.redirect("/cart");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(
+        "🚀 ~ file: shop.js ~ line 85 ~ exports.postCartDeleteProduct ~ err",
+        err
+      );
+    });
 };
 
 exports.postOrder = (req, res, next) => {
@@ -107,7 +116,9 @@ exports.postOrder = (req, res, next) => {
     .then(() => {
       res.redirect("/orders");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log("🚀 ~ file: shop.js ~ line 111 ~ err", err);
+    });
 };
 
 exports.getOrders = (req, res, next) => {
@@ -120,5 +131,7 @@ exports.getOrders = (req, res, next) => {
         isAuthenticated: req.session.isLoggedIn,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log("🚀 ~ file: shop.js ~ line 124 ~ err", err);
+    });
 };

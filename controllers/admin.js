@@ -24,12 +24,14 @@ exports.postAddProduct = (req, res, next) => {
   product
     .save()
     .then((result) => {
-      // console.log(result);
-      console.log("Created Product");
+      console.log(
+        "🚀 ~ file: admin.js ~ line 27 ~ .then ~ result ",
+        "Created Product"
+      );
       res.redirect("/admin/products");
     })
     .catch((err) => {
-      console.log(err);
+      console.log("🚀 ~ file: admin.js ~ line 31 ~ err", err);
     });
 };
 
@@ -52,7 +54,9 @@ exports.getEditProduct = (req, res, next) => {
         isAuthenticated: req.session.isLoggedIn,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log("🚀 ~ file: admin.js ~ line 58 ~ err", err);
+    });
 };
 
 exports.postEditProduct = (req, res, next) => {
@@ -71,10 +75,15 @@ exports.postEditProduct = (req, res, next) => {
       return product.save();
     })
     .then((result) => {
-      console.log("UPDATED PRODUCT!");
+      console.log(
+        "🚀 ~ file: admin.js ~ line 78 ~ .then ~ result",
+        "UPDATED PRODUCT!"
+      );
       res.redirect("/admin/products");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log("🚀 ~ file: admin.js ~ line 85 ~ err", err);
+    });
 };
 
 exports.getProducts = (req, res, next) => {
@@ -82,7 +91,7 @@ exports.getProducts = (req, res, next) => {
     // .select('title price -_id')
     // .populate('userId', 'name')
     .then((products) => {
-      console.log(products);
+      console.log("🚀 ~ file: admin.js ~ line 94 ~ .then ~ products", products);
       res.render("admin/products", {
         prods: products,
         pageTitle: "Admin Products",
@@ -90,15 +99,25 @@ exports.getProducts = (req, res, next) => {
         isAuthenticated: req.session.isLoggedIn,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log("🚀 ~ file: admin.js ~ line 103 ~ err", err);
+    });
 };
 
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
   Product.findByIdAndRemove(prodId)
     .then(() => {
-      console.log("DESTROYED PRODUCT");
+      console.log(
+        "🚀 ~ file: admin.js ~ line 112 ~ .then",
+        "DESTROYED PRODUCT"
+      );
       res.redirect("/admin/products");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(
+        "🚀 ~ file: admin.js ~ line 118 ~ exports.postDeleteProduct ~ err",
+        err
+      );
+    });
 };
